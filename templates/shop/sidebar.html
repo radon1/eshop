@@ -1,0 +1,89 @@
+{% load staticfiles %}
+<div class="col-md-2">
+    <div class="sidebar">
+        <form action="{% url 'sort' %}" method="post">
+            {% csrf_token %}
+            <div class="side">
+                <h2>Categories</h2>
+                <div class="fancy-collapse-panel">
+                    <div class="panel-group" id="accordion" role="tablist"
+                         aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="headingOne">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion"
+                                       href="{{products_list.first.category.get_absolute_url}}" aria-expanded="true"
+                                       aria-controls="collapseOne"></a>
+                                </h4>
+                                <ul>
+                                    {% for cat in category %}
+                                        <li><a href="{{ cat.get_absolute_url  }}"> {{ cat }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse"
+                                 role="tabpanel" aria-labelledby="headingOne">
+                                <div class="panel-body">
+                                    <ul>
+                                        <li><a href="/sort/?category=LG">LG</a></li>
+                                        <li><a href="/sort/?category=Noth">Noth</a></li>
+                                        <li><a href="/sort/?category=TV">TV</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="side">
+                <h2>Price Range</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="guests">Price from:</label>
+                                <div class="form-field">
+                                    <i class="icon icon-arrow-down3"></i>
+                                    <select name="price1" id="people" class="form-control">
+                                        <option value="1">1</option>
+                                        <option value="200">200</option>
+                                        <option value="300">300</option>
+                                        <option value="1000">1000</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="guests">Price to:</label>
+                                <div class="form-field">
+                                    <i class="icon icon-arrow-down3"></i>
+                                    <select name="price2" id="people" class="form-control">
+                                        <option value="200">2000</option>
+                                        <option value="4000">4000</option>
+                                        <option value="6000">6000</option>
+                                        <option value="8000">8000</option>
+                                        <option value="10000">10000</option>
+                                        <option value="30000">30000</option>
+                                        <option value="50000">50000</option>
+                                        <option value="80000">80000</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="side">
+                <h2>availability</h2>
+                <div class="color-wrap">
+                    <p class="color-desc">
+                        <label>В наличии</label>
+                        <input type="radio" name="availability" class="color color-1" value="True" checked="checked">
+                        <label>Отсутствует</label>
+                        <input type="radio" name="availability" class="color color-2" value="False">
+                    </p>
+                </div>
+            </div>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>

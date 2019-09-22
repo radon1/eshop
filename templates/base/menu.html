@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/form_menu' %}">
+</head>
+<body>
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" class="form_menu" name="search" value="" placeholder="Поиск">
+        <button class="btn-info btn-sm" type="submit">Найти</button>
+    </form>
+</body>
+</html>

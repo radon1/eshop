@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+    <p>
+        <div class="row row-pb-lg">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="product-detail-wrap">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success" role="alert">
+                                <button class="close" data-dismiss="alert">
+                                    <small><sup>x</sup></small>
+                                </button>
+                            <p class="reviews">{{ message }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+    <div class="color-wrap">
+        <p class="color-desc">
+            Категория:
+            <a href="{{ product.category.get_absolute_url }}" style="color: #000;" class="color color-1">
+                {{ product.category }}
+            </a>
+        </p>
+    </div>
+    <div>
+        <p class="color1-1">{{ product.name }}</p>
+        <p class="color1-1">{{ product.description }}</p>
+        <p class="color1-1">${{ product.price }}</p>
+        <p class="color1-1">{{ product.created }}</p>
+    </div>
+    <img src="{{ product.image.url }}"><br>
+    {% if user.is_authenticated %}
+        <form action="{% url 'add_cartitem' product.slug product.id %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-danger">Отправить</button>
+        </form>
+    {% endif %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-4">
+                {% if user.is_authenticated %}
+                    <p><a href="{% url 'cart_item' %}" class="btn btn-info">Перейти в корзину</a></p>
+                {% endif %}
+            </div>
+            <div class="col-4">
+                <p><a href="{% url 'account_signup' %}" class="btn btn-success">Регистрация</a></p>
+                <p><a href="{% url 'account_login' %}" class="btn btn-success">Вход</a></p>
+            </div>
+        </div>
+    </div>
+    </p>
+{% endblock content %}
