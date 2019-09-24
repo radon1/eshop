@@ -6,7 +6,6 @@ from .models import *
 from .forms import ProfileForm
 
 
-
 class ProfileDetail(LoginRequiredMixin, DetailView):
     '''Вывод профиля пользователя'''
     model = Profile

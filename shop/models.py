@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.urls import reverse
 from django.utils.html import format_html_join, format_html
 from mptt.models import MPTTModel, TreeForeignKey
@@ -110,6 +111,13 @@ class Order(models.Model):
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE)
     accepted = models.BooleanField(verbose_name='Заказ выполнен', default=False)
     date = models.DateTimeField('Дата', default=timezone.now)
+    total = models.PositiveIntegerField('Общая сумма', default=0)
+
+    def save(self, *args, **kwargs):
+        total = CartItem.objects.filter(cart=self.cart).aggregate(Sum('price_sum'))
+        self.total = total.get("price_sum__sum")
+        super().save(*args, **kwargs)
+
 
     def products_list(self):
         products = CartItem.objects.filter(cart=self.cart)

@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Sum, Q
 from django.shortcuts import render, redirect
@@ -38,10 +39,12 @@ class ProductDetail(DetailView):
         return context
 
 
-class CartItemList(ListView):
+class CartItemList(LoginRequiredMixin, ListView):
     """Товары в корзине пользователя"""
     template_name = 'shop/cart.html'
     cart_items = ''
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
     def get_queryset(self):
         self.cart_items = CartItem.objects.filter(cart__user=self.request.user, cart__accepted=False)
@@ -123,17 +126,20 @@ class AddOrder(View):
     """Создание заказа"""
     def post(self, request):
         cart = Cart.objects.get(id=request.POST.get("pk"), user=request.user)
-        cart.accepted = True
-        cart.save()
-        Order.objects.create(cart=cart)
-        Cart.objects.create(user=request.user)
+        if CartItem.objects.filter(cart=cart).exists():
+            cart.accepted = True
+            cart.save()
+            Order.objects.create(cart=cart)
+            Cart.objects.create(user=request.user)
         return redirect('order_list')
 
 
-class OrderList(ListView):
+class OrderList(LoginRequiredMixin, ListView):
     """Список заказов пользователя"""
     template_name = "shop/order_list.html"
     order = ''
+    login_url = '/accounts/login/'
+    redirect_field_name = 'next'
 
     def get_queryset(self):
         self.order = Order.objects.filter(cart__user=self.request.user, accepted=False)
@@ -141,7 +147,7 @@ class OrderList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["total"] = self.order.aggregate(Sum('cart__cartitem__price_sum'))
+        # context["total"] = self.order.aggregate(Sum('cart__cartitem__price_sum'))
         return context
 
     def post(self, request):

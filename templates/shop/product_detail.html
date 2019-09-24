@@ -31,24 +31,41 @@
     </div>
     <img src="{{ product.image.url }}"><br>
     {% if user.is_authenticated %}
-        <form action="{% url 'add_cartitem' product.slug product.id %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-danger">Отправить</button>
-        </form>
-    {% endif %}
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                {% if user.is_authenticated %}
-                    <p><a href="{% url 'cart_item' %}" class="btn btn-info">Перейти в корзину</a></p>
-                {% endif %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <form action="{% url 'add_cartitem' product.slug product.id %}" method="post">
+                        <div class="row">
+                            <div class="col-12">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                            </div>
+                            <div class="col-6">
+                                <button type="submit" class="btn btn-danger">Отправить</button>
+                            </div>
+                            <div class="col-6">
+                                <p><a href="{% url 'cart_item' %}" class="btn btn-info">Перейти в корзину</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-4">
-                <p><a href="{% url 'account_signup' %}" class="btn btn-success">Регистрация</a></p>
-                <p><a href="{% url 'account_login' %}" class="btn btn-success">Вход</a></p>
+
+        </div>
+    {% endif %}
+    {% if not user.is_authenticated %}
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <p><a href="{% url 'account_signup' %}" class="btn btn-success">Регистрация</a></p>
+                </div>
+                <div class="col-6">
+                    <p><a href="{% url 'account_login' %}" class="btn btn-success">Вход</a></p>
+                </div>
             </div>
         </div>
+    {% endif %}
+    </div>
     </div>
     </p>
 {% endblock content %}
