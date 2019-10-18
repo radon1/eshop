@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.db.models import Sum, Q
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 from .models import (Product, Cart, CartItem, Order, Category)
 from .forms import CartItemForm
@@ -23,7 +23,7 @@ class ProductsList(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category"] = Category.objects.all()
+        context["categories"] = Category.objects.all()
         return context
 
 
@@ -55,27 +55,6 @@ class CartItemList(LoginRequiredMixin, ListView):
         context["cart_id"] = Cart.objects.get(user=self.request.user, accepted=False).id
         context["total"] = self.cart_items.aggregate(Sum('price_sum'))
         return context
-
-
-# class AddCartItem(CreateView, UpdateView):
-#     model = CartItem
-#     form_class = CartItemForm
-#     template_name = 'shop/add_cart_item.html'
-#     success_url = ''
-#
-#     def form_valid(self, form):
-#         messages.add_message(self.request, settings.MY_INFO, "Товар добавлен")
-#         form.instance.cart = Cart.objects.get(user=self.request.user)
-#         form.instance.product_id = self.kwargs.get("pk")
-#         form.save()
-#         self.success_url = "/product_detail/{}/".format(self.kwargs.get("slug"))
-#         return super().form_valid(form)
-#
-#     def get_object(self, queryset=None):
-#         try:
-#             return CartItem.objects.get(cart__user=self.request.user, product_id=self.kwargs.get("pk"), cart__accepted=False)
-#         except:
-#             pass
 
 
 class AddCartItem(View):
@@ -190,19 +169,21 @@ class CategoryProduct(ListView):
     template_name = "shop/list_product.html"
     paginate_by = 5
     context_object_name = 'products_list'
+    node = ''
 
     def get_queryset(self):
         slug = self.kwargs.get("slug")
-        node = Category.objects.get(slug=slug)
+        self.node = Category.objects.get(slug=slug)
         if Product.objects.filter(category__slug=slug).exists():
             products = Product.objects.filter(category__slug=slug)
         else:
-            products = Product.objects.filter(category__slug__in=[x.slug for x in node.get_family()])
+            products = Product.objects.filter(category__slug__in=[x.slug for x in self.node.get_family()])
         return products.order_by('-id')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category"] = Category.objects.all()
+        context["category"] = self.node
+        context["categories"] = Category.objects.all()
         return context
 
 
@@ -215,6 +196,7 @@ class SortProducts(View):
         price_1 = request.POST.get("price1", 1)
         price_2 = request.POST.get("price2", 1000000000)
         availability = request.POST.get("availability", None)
+        print(category)
         print(price_1)
         print(price_2)
         print(availability)
@@ -223,7 +205,7 @@ class SortProducts(View):
 
         if category:
             cat = Q()
-            cat &= Q(category__name__icontains=category)
+            cat &= Q(category__slug=category)
             filt.append(cat)
         if price_1 or price_2:
             price = Q()
@@ -241,7 +223,7 @@ class SortProducts(View):
             filt.append(availability)
 
         sort = Product.objects.filter(*filt)
-
+        print(sort)
         return render(request, "shop/list_product.html", {"products_list": sort})
 
 

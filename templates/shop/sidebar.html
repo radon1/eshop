@@ -3,6 +3,7 @@
     <div class="sidebar">
         <form action="{% url 'sort' %}" method="post">
             {% csrf_token %}
+        <input type="hidden" name="category" value="{{ category.slug }}">
             <div class="side">
                 <h2>Categories</h2>
                 <div class="fancy-collapse-panel">
@@ -16,7 +17,7 @@
                                        aria-controls="collapseOne"></a>
                                 </h4>
                                 <ul>
-                                    {% for cat in category %}
+                                    {% for cat in categories %}
                                         <li><a href="{{ cat.get_absolute_url  }}"> {{ cat }}</a></li>
                                     {% endfor %}
                                 </ul>

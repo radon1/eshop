@@ -1,17 +1,12 @@
 from django.contrib import admin
 from django import forms
-from django.http import HttpResponseRedirect
 from mptt.admin import MPTTModelAdmin
 from photologue.admin import GalleryAdmin as GalleryAdminDefault
 from photologue.models import Gallery as PhotoLogeGallery
-from .models import Category, Product, Gallery, Cart, CartItem, Order
+from .models import Category, Product, Cart, CartItem, Order
 from import_export.admin import ImportExportModelAdmin
 from django.contrib import messages
-from django.db import DatabaseError, IntegrityError
 
-# class CategoryAdmin(admin.ModelAdmin):
-#     list_display = ['name', 'slug']
-#     prepopulated_fields = {'slug': ('name', )}
 
 class CategoryMPTTModelAdmin(MPTTModelAdmin):
     mptt_level_indent = 20
@@ -24,13 +19,14 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price', 'quantity', 'availability']
     prepopulated_fields = {'slug': ('name', )}
 
+
 class CartItemAdmin(admin.ModelAdmin):
     """Товары в корзине"""
     list_display = ("cart", "product", "quantity")
 
 
 class GalleryAdminForm(forms.ModelForm):
-    """Users never need to enter a description on a gallery."""
+    """Пользователям не нужно вводить описание в галереи"""
 
     class Meta:
         model = PhotoLogeGallery
@@ -70,22 +66,6 @@ class CartAdmin(admin.ModelAdmin):
         
     delete_model.short_description = 'Delete Cart'
 
-# else:
-#     self.message_user(request, 'LLALLALALA')
-
-# def message_user(self, request, message, level=messages.INFO, extra_tags='',
-#                  fail_silently=False):
-#     message = 'LALALLALAL'
-#     return message
-#
-#     messages.add_message(request, messages.ERROR, 'You can not delete the last cart')
-#     messages.add_message(request, messages.INFO, 'You can not delete the last cart')
-    # messages.error(request, 'You can not delete the last cart')
-    # messages.info(request, 'You can not delete the last cart')
-    # messages.warning(request, 'You can not delete the last cart')
-    # messages.success(request, 'You can not delete the last cart')
-
-
 
 class OrderAdmin(ImportExportModelAdmin):
     list_display = ('cart', 'accepted', 'date', )
@@ -95,17 +75,10 @@ class OrderAdmin(ImportExportModelAdmin):
     exclude = ('cart', 'product')
 
 
-
-# @admin.register(OrderAdmin)
-# class OrderAdmins(ImportExportModelAdmin):
-#     pass
-
-
 admin.site.register(Category, CategoryMPTTModelAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.unregister(PhotoLogeGallery)
 admin.site.register(PhotoLogeGallery, GalleryAdmin)
 admin.site.register(Cart, CartAdmin)
-# admin.site.disable_action('delete_selected')
 admin.site.register(CartItem, CartItemAdmin)
 admin.site.register(Order, OrderAdmin)

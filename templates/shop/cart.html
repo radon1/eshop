@@ -117,7 +117,11 @@
                             </div>
                             <div class="grand-total">
                                 <p><span><strong>Total:</strong></span>
-                                    <span>${{ total.price_sum__sum }}</span>
+                                    {% if total.price_sum__sum %}
+                                        <span>${{ total.price_sum__sum }}</span>
+                                    {% else %}
+                                        <span>$ 0</span>
+                                    {% endif %}
                                 </p>
                             </div>
                         </div>

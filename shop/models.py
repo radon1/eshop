@@ -9,7 +9,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-
 class Category(MPTTModel):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=150, unique=True)
@@ -43,7 +42,6 @@ class Product(models.Model):
     description = models.TextField('Описание')
     image = models.ImageField(verbose_name='Фотография', blank=True, upload_to='shop/')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
-    #price_2 = models.IntegerField('Цена_2', default=0)
     quantity = models.PositiveIntegerField(verbose_name='Количество', default=0)
     color = models.CharField('Цвет', max_length=100)
     availability = models.BooleanField(default=True, verbose_name='Наличие')
@@ -61,6 +59,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product_detail', kwargs={"slug": self.slug})
+
 
 class Gallery(models.Model):
     name = models.CharField('Название', max_length=150)
