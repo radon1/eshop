@@ -35,9 +35,6 @@
                             <div class="form-field">
                                 <i class="icon icon-arrow-down3"></i>
                                 <select name="country" id="people" class="form-control">
-{#                                    {% for coun in form.country %}#}
-{#                                        <option value="{{ coun.value }}">{{ coun }}</option>#}
-{#                                    {% endfor %}#}
                                     <option value="Russia">Russia</option>
                                     <option value="USA">USA</option>
                                     <option value="Great Britain">Great Britain</option>
@@ -111,16 +108,6 @@
                                    placeholder="" value="{{ form.phone.value }}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            {#                            <div class="radio">#}
-                            {#                                <label><input type="radio" name="optradio">Create an Account?#}
-                            {#                                </label>#}
-                            {#                                <label><input type="radio" name="optradio"> Ship to different#}
-                            {#                                    address</label>#}
-                            {#                            </div>#}
-                        </div>
-                    </div>
                     <input type="submit" class="btn btn-primary" value="Сохранить">
                 </div>
             </form>
@@ -129,14 +116,6 @@
                     <div class="cart-detail">
                         <h2>Cart Total</h2>
                         <ul>
-{#                            <li>#}
-{#                                <span>Subtotal</span> <span>$100.00</span>#}
-{#                                <ul>#}
-{#                                    <li><span>1 x Product Name</span> <span>$99.00</span></li>#}
-{#                                    <li><span>1 x Product Name</span> <span>$78.00</span></li>#}
-{#                                </ul>#}
-{#                            </li>#}
-{#                            <li><span>Shipping</span> <span>$0.00</span></li>#}
                             <li><span>Order Total</span>
                                 <span>${{ order.cart__cartitem__price_sum__sum }}</span>
                             </li>
@@ -169,7 +148,8 @@
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="checkbox">
-                                    <label><input type="checkbox" value="">I have read and accept
+                                    <label><input type="checkbox" value="">
+                                        I have read and accept
                                         the
                                         terms and conditions</label>
                                 </div>

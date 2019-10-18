@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load static %}
 {% block content %}
     <div class="colorlib-shop">
     <div class="container">
@@ -79,7 +79,6 @@
                 </div>
             </div>
         </div>
-
     {% endfor %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -89,11 +88,6 @@
                         {% if object_list %}
                             <form action="{% url 'add_order' %}" method="post">
                                 <div class="row form-group">
-                                    <div class="col-md-9">
-                                        {#                                            <input type="text" name="quantity"#}
-                                        {#                                                   class="form-control input-number"#}
-                                        {#                                                   placeholder="Your Coupon Number...">#}
-                                    </div>
                                     <div class="col-md-3">
                                         {% csrf_token %}
                                         <input type="number"
@@ -110,11 +104,6 @@
                     </div>
                     <div class="col-md-3 col-md-push-1 text-center">
                         <div class="total">
-                            <div class="sub">
-                                {#                                        <p><span>Subtotal:</span> <span>$200.00</span></p>#}
-                                {#                                        <p><span>Delivery:</span> <span>$0.00</span></p>#}
-                                {#                                        <p><span>Discount:</span> <span>$45.00</span></p>#}
-                            </div>
                             <div class="grand-total">
                                 <p><span><strong>Total:</strong></span>
                                     {% if total.price_sum__sum %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load static %}
 {% block content %}
     <p>
         <div class="row row-pb-lg">
@@ -46,12 +46,10 @@
                             <div class="col-6">
                                 <p><a href="{% url 'cart_item' %}" class="btn btn-info">Перейти в корзину</a></p>
                             </div>
-
                         </div>
                     </form>
                 </div>
             </div>
-
         </div>
     {% endif %}
     {% if not user.is_authenticated %}
