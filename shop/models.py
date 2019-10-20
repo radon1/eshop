@@ -10,6 +10,7 @@ from django.dispatch import receiver
 
 
 class Category(MPTTModel):
+    '''Категории'''
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=150, unique=True)
     parent = TreeForeignKey(
@@ -35,6 +36,7 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
+    '''Продукт'''
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     name = models.CharField('Название', max_length=150)
     slug = models.SlugField(max_length=150)
@@ -62,6 +64,7 @@ class Product(models.Model):
 
 
 class Gallery(models.Model):
+    '''Галерея'''
     name = models.CharField('Название', max_length=150)
     image = models.ImageField(verbose_name='Фото', blank=True, upload_to='gallery/')
 

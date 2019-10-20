@@ -4,7 +4,7 @@ from .models import CartItem
 
 
 class CartItemForm(forms.ModelForm):
-    """Форма добавления товара"""
+    '''Форма добавления товара'''
 
     class Meta:
         model = CartItem

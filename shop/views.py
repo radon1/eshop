@@ -83,7 +83,7 @@ class AddCartItem(View):
 
 
 class EditCartItem(View):
-    '''Редактирование товара в корзине'''
+    """Редактирование товара в корзине"""
     def post(self, request, pk):
         quantity = request.POST.get("quantity", None)
         if quantity:
@@ -94,7 +94,7 @@ class EditCartItem(View):
 
 
 class RemoveCartItem(View):
-    '''Удаление товара из корзины'''
+    """Удаление товара из корзины"""
     def get(self, request, pk):
         CartItem.objects.get(id=pk, cart__user=request.user).delete()
         messages.add_message(request, settings.MY_INFO, 'Товар удален')
@@ -190,7 +190,6 @@ class CategoryProduct(ListView):
 
 class SortProducts(View):
     """Фильтр товаров"""
-
     def post(self, request):
         category = request.POST.get("category", None)
         price_1 = request.POST.get("price1", 1)
@@ -228,6 +227,6 @@ class SortProducts(View):
 
 
 class Test(View):
-    '''Test Render'''
+    """Test Render"""
     def get(self, request):
         return render(request, 'shop/test.html')

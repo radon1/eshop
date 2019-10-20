@@ -7,12 +7,6 @@ class ProtectedView(TemplateView):
 
 
 
-
-
-
-
-
-
 # class A:
 #     value = 2
 #

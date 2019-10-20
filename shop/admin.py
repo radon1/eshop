@@ -21,12 +21,12 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class CartItemAdmin(admin.ModelAdmin):
-    """Товары в корзине"""
+    '''Товары в корзине'''
     list_display = ("cart", "product", "quantity")
 
 
 class GalleryAdminForm(forms.ModelForm):
-    """Пользователям не нужно вводить описание в галереи"""
+    '''Пользователям не нужно вводить описание в галереи'''
 
     class Meta:
         model = PhotoLogeGallery
@@ -38,7 +38,7 @@ class GalleryAdmin(GalleryAdminDefault):
 
 
 class CartAdmin(admin.ModelAdmin):
-    """Корзины"""
+    '''Корзины'''
     list_display = ("id", "user", "accepted", )
     list_display_links = ("user", )
     # readonly_fields = ("cartitem",)
