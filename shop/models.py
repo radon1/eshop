@@ -10,7 +10,7 @@ from django.dispatch import receiver
 
 
 class Category(MPTTModel):
-    '''Категории'''
+    """Категории"""
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=150, unique=True)
     parent = TreeForeignKey(
@@ -36,7 +36,7 @@ class Category(MPTTModel):
 
 
 class Product(models.Model):
-    '''Продукт'''
+    """Продукт"""
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.CASCADE)
     name = models.CharField('Название', max_length=150)
     slug = models.SlugField(max_length=150)
@@ -64,7 +64,7 @@ class Product(models.Model):
 
 
 class Gallery(models.Model):
-    '''Галерея'''
+    """Галерея"""
     name = models.CharField('Название', max_length=150)
     image = models.ImageField(verbose_name='Фото', blank=True, upload_to='gallery/')
 
@@ -77,7 +77,7 @@ class Gallery(models.Model):
 
 
 class Cart(models.Model):
-    '''Корзина'''
+    """Корзина"""
     user = models.ForeignKey(User, verbose_name='Покупатель', 	on_delete=models.CASCADE)
     accepted = models.BooleanField(verbose_name='Принято к заказу', default=False)
 
@@ -90,7 +90,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    '''Товары в корзине'''
+    """Товары в корзине"""
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE)
     product = models.ForeignKey(Product, verbose_name='Товар', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField('Количество', default=1)
@@ -109,7 +109,7 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-    '''Заказы'''
+    """Заказы"""
     cart = models.ForeignKey(Cart, verbose_name='Корзина', on_delete=models.CASCADE)
     accepted = models.BooleanField(verbose_name='Заказ выполнен', default=False)
     date = models.DateTimeField('Дата', default=timezone.now)
@@ -161,6 +161,6 @@ class Order(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_cart(sender, instance, created, **kwargs):
-    '''Создание корзины пользователя'''
+    """Создание корзины пользователя"""
     if created:
         Cart.objects.create(user=instance)
