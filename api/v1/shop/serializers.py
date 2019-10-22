@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from shop.models import Product, Category, CartItem
+from shop.models import Product, Category, CartItem, Cart
 
 from photologue.models import Gallery
 
@@ -43,3 +43,9 @@ class CreateCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
         fields = ["quantity"] #"cart", "product",
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ['product', 'price_sum']
