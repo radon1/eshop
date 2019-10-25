@@ -164,3 +164,5 @@ def create_user_cart(sender, instance, created, **kwargs):
     """Создание корзины пользователя"""
     if created:
         Cart.objects.create(user=instance)
+
+

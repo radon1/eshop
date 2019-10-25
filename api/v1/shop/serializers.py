@@ -1,15 +1,19 @@
 from rest_framework import serializers
 from shop.models import Product, Category, CartItem, Cart, Order
 
-from photologue.models import Gallery
+from photologue.models import Gallery, Photo
+
+
+class PhotoSerializer(serializers.ModelSerializer):
+    image = serializers.URLField(read_only=True, source='image.url')
+
+    class Meta:
+        model = Photo
+        fields = ['image']
 
 
 class GallerySerializer(serializers.ModelSerializer):
-    # photos = serializers.SlugRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     slug_field='name'
-    # )
+    photos = PhotoSerializer(read_only=True, many=True)
 
     class Meta:
         model = Gallery
