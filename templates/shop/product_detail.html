@@ -29,7 +29,9 @@
         <p class="color1-1">${{ product.price }}</p>
         <p class="color1-1">{{ product.created }}</p>
     </div>
-    <img src="{{ product.image.url }}"><br>
+    {% if product.image %}
+        <img src="{{ product.image.url }}"><br>
+    {% endif %}
     {% if user.is_authenticated %}
         <div class="container">
             <div class="row">
