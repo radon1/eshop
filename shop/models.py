@@ -158,7 +158,6 @@ class Order(models.Model):
         return "{}".format(self.cart)
 
 
-
 @receiver(post_save, sender=User)
 def create_user_cart(sender, instance, created, **kwargs):
     """Создание корзины пользователя"""
